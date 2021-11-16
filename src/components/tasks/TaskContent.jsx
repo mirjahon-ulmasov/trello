@@ -1,17 +1,33 @@
-import { Draggable } from 'react-beautiful-dnd';
-import { MdClose } from 'react-icons/md';
-import { BiUserPlus } from 'react-icons/bi';
-import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { Select } from 'antd';
 import { taskAction } from '../../store/task-slice';
+import { Draggable } from 'react-beautiful-dnd';
+import { BiUserPlus } from 'react-icons/bi';
+import { useDispatch, useSelector } from 'react-redux';
+import { MdClose } from 'react-icons/md';
+const { Option } = Select;
 
 export default function TaskContent({ item, index, status }) {
-  const disatch = useDispatch();
+  const users = useSelector(state => state.data.users);
+  const [active, setActive] = useState(false);
+  const dispatch = useDispatch();
+
   const deleteHandler = () => {
-    disatch(taskAction.removeFromTask({ id: item.id, type: status }));
+    dispatch(taskAction.removeFromTask({ type: status, index: index }));
   };
 
   const addUserHandler = () => {
-    console.log('Added User');
+    setActive(active ? false : true);
+  };
+
+  const handleChange = users => {
+    dispatch(
+      taskAction.addToTask({
+        type: status,
+        task: { id: item.id + '', title: item.title, users: users },
+        index: index,
+      })
+    );
   };
 
   return (
@@ -40,9 +56,127 @@ export default function TaskContent({ item, index, status }) {
                 />
               </div>
             </div>
+            <div className="task-users">
+              {item.users.map((user, i) => {
+                return (
+                  <div key={i} className="task-user">
+                    {user}
+                  </div>
+                );
+              })}
+            </div>
+            {active && (
+              <Select
+                mode="multiple"
+                style={{ width: '100%' }}
+                placeholder="Select Users"
+                onChange={handleChange}
+                optionLabelProp="label"
+              >
+                {users.map((user, i) => {
+                  return (
+                    <Option key={i} value={user} label={user}>
+                      {user}
+                    </Option>
+                  );
+                })}
+              </Select>
+            )}
           </div>
         );
       }}
     </Draggable>
   );
 }
+
+// import * as React from 'react';
+// import { useTheme } from '@mui/material/styles';
+// import Box from '@mui/material/Box';
+// import OutlinedInput from '@mui/material/OutlinedInput';
+// import InputLabel from '@mui/material/InputLabel';
+// import MenuItem from '@mui/material/MenuItem';
+// import FormControl from '@mui/material/FormControl';
+// import Select from '@mui/material/Select';
+// import Chip from '@mui/material/Chip';
+
+// const ITEM_HEIGHT = 48;
+// const ITEM_PADDING_TOP = 8;
+// const MenuProps = {
+//   PaperProps: {
+//     style: {
+//       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+//       width: 250,
+//     },
+//   },
+// };
+
+// const names = [
+//   'Oliver Hansen',
+//   'Van Henry',
+//   'April Tucker',
+//   'Ralph Hubbard',
+//   'Omar Alexander',
+//   'Carlos Abbott',
+//   'Miriam Wagner',
+//   'Bradley Wilkerson',
+//   'Virginia Andrews',
+//   'Kelly Snyder',
+// ];
+
+// function getStyles(name, personName, theme) {
+//   return {
+//     fontWeight:
+//       personName.indexOf(name) === -1
+//         ? theme.typography.fontWeightRegular
+//         : theme.typography.fontWeightMedium,
+//   };
+// }
+
+// export default function MultipleSelectChip() {
+//   const theme = useTheme();
+//   const [personName, setPersonName] = React.useState([]);
+
+//   const handleChange = (event) => {
+//     const {
+//       target: { value },
+//     } = event;
+//     setPersonName(
+//       // On autofill we get a the stringified value.
+//       typeof value === 'string' ? value.split(',') : value,
+//     );
+//   };
+
+//   return (
+//     <div>
+//       <FormControl sx={{ m: 1, width: 300 }}>
+//         <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
+//         <Select
+//           labelId="demo-multiple-chip-label"
+//           id="demo-multiple-chip"
+//           multiple
+//           value={personName}
+//           onChange={handleChange}
+//           input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+//           renderValue={(selected) => (
+//             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+//               {selected.map((value) => (
+//                 <Chip key={value} label={value} />
+//               ))}
+//             </Box>
+//           )}
+//           MenuProps={MenuProps}
+//         >
+//           {names.map((name) => (
+//             <MenuItem
+//               key={name}
+//               value={name}
+//               style={getStyles(name, personName, theme)}
+//             >
+//               {name}
+//             </MenuItem>
+//           ))}
+//         </Select>
+//       </FormControl>
+//     </div>
+//   );
+// }

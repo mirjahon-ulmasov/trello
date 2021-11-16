@@ -6,28 +6,37 @@ const taskSlice = createSlice({
     todo: [],
     inProgress: [],
     done: [],
+    removed: null,
   },
   reducers: {
-    addToTask(state, action) {
-      const { task, type } = action.payload;
-      state[type].push({
-        id: task.id,
-        title: task.title,
-        status:
-          type === 'todo'
-            ? 'Нужно сделать'
-            : type === 'inProgress'
-            ? 'В процессе'
-            : 'Готово',
-        users: [],
-      });
-    },
-    
     removeFromTask(state, action) {
-      const { id, type } = action.payload;
-      state[type] = state[type].filter(e => {
-        return e.id !== id;
+      const { type, index } = action.payload;
+      [state.removed] = state[type].splice(index, 1);
+    },
+
+    addToTask(state, action) {
+      const { type, task, index } = action.payload;
+      let existingTaskIndex;
+      const existingTask = state[type].find((e, i) => {
+        if (e.id === task.id) {
+          existingTaskIndex = i;
+          return true;
+        } else {
+          return false;
+        }
       });
+      if (!existingTask) {
+        state[type].splice(index, 0, {
+          id: task.id,
+          title: task.title,
+          users: task.users || [],
+        });
+      } else {
+        state[type][existingTaskIndex] = {
+          ...state[type][existingTaskIndex],
+          users: task.users,
+        };
+      }
     },
   },
 });

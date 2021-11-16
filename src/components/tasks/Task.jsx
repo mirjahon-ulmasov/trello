@@ -6,17 +6,19 @@ import { MdClose } from 'react-icons/md';
 import { useState } from 'react';
 
 export default function Task({ header, status }) {
-  const dispatch = useDispatch();
+  const currentUser = useSelector(state => state.data.currentUser);
   const task = useSelector(state => state.task[status]);
-  const [input, setInput] = useState('');
   const [active, setActive] = useState(false);
+  const [input, setInput] = useState('');
+  const dispatch = useDispatch();
 
   const addInputHandler = () => {
     if (active) {
       dispatch(
         taskAction.addToTask({
-          task: { id: Math.random() + '', title: input },
           type: status,
+          task: { id: Math.random() + '', title: input, users: null },
+          index: task.length,
         })
       );
       setActive(false);
@@ -32,18 +34,27 @@ export default function Task({ header, status }) {
   return (
     <div className="tasks">
       <div className="task-header">{header}</div>
-      <Droppable droppableId={header}>
-        {provided => (
-          <div {...provided.droppableProps} ref={provided.innerRef}>
-            {task.map((e, i) => {
-              return (
-                <TaskContent key={e.id} item={e} index={i} status={status} />
-              );
-            })}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
+      <div className="task-body">
+        <Droppable droppableId={status}>
+          {provided => (
+            <div {...provided.droppableProps} ref={provided.innerRef}>
+              {task.map((e, i) => {
+                if (e.users.find(e => e === currentUser) ||
+                    currentUser === 'ALL') {
+                  return (
+                    <TaskContent
+                      key={e.id}
+                      item={e}
+                      index={i}
+                      status={status}
+                    />
+                  );
+                }})}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </div>
       {active && (
         <textarea
           rows="3"

@@ -27,28 +27,27 @@ body {
   padding: 0.6rem 5rem;
 }
 
-.nav__profiles img {
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
+.nav__profiles {
+  display: flex;
   cursor: pointer;
+  color: #fff;
 }
 
 .nav__profiles button {
-  padding: 0.5rem 1rem;
+  padding: 0.2rem 1rem;
   font-size: 18px;
-  color: #fff;
-  border: 3px #e66868 solid;
-  border-radius: 6px;
+  margin-left: 0.5rem;
   text-transform: uppercase;
   background-color: transparent;
+  border: 2.5px #e66868 solid;
+  border-radius: 6px;
   cursor: pointer;
-  transition: 0.2s;
 }
 
-.nav__profiles button:hover {
+.nav__profiles button:hover,
+.nav__profiles .task-user:hover {
   box-shadow: 0 0 10px #43e9ffb4;
+  transition: 0.2s;
 }
 
 h1 {
@@ -57,7 +56,7 @@ h1 {
   color: #fff;
   padding: 0.3rem 1rem;
   letter-spacing: 0.5px;
-  border: 3px #e66868 solid;
+  border: 3px #e66868bd solid;
   border-radius: 6px;
 }
 
@@ -72,8 +71,7 @@ h1 {
   padding: 1rem;
   width: 24rem;
   height: 100%;
-  max-height: 84vh;
-  overflow: scroll;
+  letter-spacing: 0.5px;
   color: #fff;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(67, 233, 255, 0.9);
@@ -82,25 +80,31 @@ h1 {
 .task-header {
   background: #181827;
   padding: 0.5rem;
+  margin-bottom: 1rem;
   font-size: 19px;
-  letter-spacing: 0.5px;
   border-radius: 5px;
-  border: 3px #e66868 solid;
+  border: 3px #e66868bd solid;
+}
+
+.task-body {
+  max-height: 50vh;
+  overflow: scroll;
 }
 
 .task-item {
-  font-size: 16px;
-  margin-top: 0.7rem;
+  margin: 0.7rem 0.2rem;
   border-radius: 5px;
   padding: 0.5rem;
-  font-size: 19px;
-  letter-spacing: 0.5px;
+  font-size: 20px;
+  font-weight: 300;
   color: #fff;
+  background: #181827;
   box-shadow: 0 0 5px #43e9ffe6;
 }
 
 .item-content {
   display: flex;
+  margin: 0 0.2rem;
   align-items: center;
   justify-content: space-between;
 }
@@ -116,6 +120,8 @@ h1 {
   margin-top: 1rem;
   padding: 0.1rem 1rem;
   font-size: 19px;
+  font-weight: 300;
+  letter-spacing: 0.5px;
   border-radius: 5px;
   background: transparent;
   border: 3px #e66868 solid;
@@ -163,4 +169,47 @@ h1 {
   letter-spacing: 0.5px;
   box-shadow: 0 0 10px #43e9ffb4;
   background: transparent;
+}
+
+.task-users {
+  display: grid;
+  /* grid-template-rows: repeat(); */
+}
+
+.task-user {
+  margin: 5px 3px;
+  padding: 4px;
+  min-width: 5rem;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 300;
+  border-radius: 5px;
+  border: 2px #e66868 solid;
+}
+
+.ant-select {
+  background-color: transparent !important;
+}
+
+.ant-select-selector {
+  padding: 0.5rem !important;
+  margin: 0.5rem 0.2rem !important;
+  border: none !important;
+  font-size: 18px !important;
+  border-radius: 5px !important;
+  background-color: #181827 !important;
+  box-shadow: 0 0 10px #43e9ffb4 !important;
+}
+
+.ant-select-multiple .ant-select-selection-item {
+  color: #fff !important;
+  padding: 4px !important;
+  height: auto !important;
+  border: none !important;
+  background-color: #e66868 !important;
+}
+
+.ant-select-selection-item-remove {
+  font-size: 13px !important;
+  color: #fff !important;
 }
