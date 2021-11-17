@@ -38,9 +38,11 @@ export default function Task({ header, status }) {
         <Droppable droppableId={status}>
           {provided => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              {task.map((e, i) => {
-                if (e.users.find(e => e === currentUser) ||
-                    currentUser === 'ALL') {
+              {task
+                .filter(task =>
+                    task.users.find(user => user === currentUser) ||
+                    currentUser === 'ALL')
+                .map((e, i) => {
                   return (
                     <TaskContent
                       key={e.id}
@@ -49,7 +51,7 @@ export default function Task({ header, status }) {
                       status={status}
                     />
                   );
-                }})}
+                })}
               {provided.placeholder}
             </div>
           )}

@@ -28,10 +28,10 @@ export default function Layout(props) {
                 </div>
               );
             })}
-          </div>
           <button type="button" id="ALL" onClick={userHandler}>
             All
           </button>
+          </div>
         </div>
       </div>
       <main className="main">{props.children}</main>

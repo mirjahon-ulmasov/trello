@@ -6,12 +6,11 @@ const taskSlice = createSlice({
     todo: [],
     inProgress: [],
     done: [],
-    removed: null,
   },
   reducers: {
     removeFromTask(state, action) {
       const { type, index } = action.payload;
-      [state.removed] = state[type].splice(index, 1);
+      state[type].splice(index, 1);
     },
 
     addToTask(state, action) {
@@ -37,6 +36,15 @@ const taskSlice = createSlice({
           users: task.users,
         };
       }
+    },
+    dragDropTask(state, action) {
+      const { source, destination } = action.payload;
+      const [removed] = state[source.droppableId].splice(source.index, 1);
+      state[destination.droppableId].splice(destination.index, 0, {
+        id: removed.id,
+        title: removed.title,
+        users: removed.users || [],
+      });
     },
   },
 });

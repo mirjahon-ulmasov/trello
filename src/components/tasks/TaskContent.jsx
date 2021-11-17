@@ -72,10 +72,16 @@ export default function TaskContent({ item, index, status }) {
                 placeholder="Select Users"
                 onChange={handleChange}
                 optionLabelProp="label"
+                dropdownClassName="user-dropdown"
               >
                 {users.map((user, i) => {
                   return (
-                    <Option key={i} value={user} label={user}>
+                    <Option
+                      className="user-options"
+                      key={i}
+                      value={user}
+                      label={user}
+                    >
                       {user}
                     </Option>
                   );
