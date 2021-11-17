@@ -37,7 +37,6 @@ body {
 .nav__profiles button {
   padding: 0.2rem 1rem;
   font-size: 18px;
-  margin-left: 0.5rem;
   text-transform: uppercase;
   background-color: transparent;
   border: 2.5px #e66868 solid;
