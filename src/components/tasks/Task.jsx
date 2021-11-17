@@ -13,7 +13,7 @@ export default function Task({ header, status }) {
   const dispatch = useDispatch();
 
   const addInputHandler = () => {
-    if (active) {
+    if (active && input) {
       dispatch(
         taskAction.addToTask({
           type: status,
@@ -21,6 +21,7 @@ export default function Task({ header, status }) {
           index: task.length,
         })
       );
+      setInput('');
       setActive(false);
     } else {
       setActive(true);
@@ -36,8 +37,8 @@ export default function Task({ header, status }) {
       <div className="task-header">{header}</div>
       <div className="task-body">
         <Droppable droppableId={status}>
-          {provided => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
+          {(provided,snapshot) => (
+            <div {...provided.droppableProps} ref={provided.innerRef} style={{minHeight: '5px'}}>
               {task
                 .filter(task =>
                     task.users.find(user => user === currentUser) ||
